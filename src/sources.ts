@@ -35,6 +35,7 @@ let sockets: Sockets = {}
 /**
  * Selects the named arithmospora config to use. If no matching name is
  * present in the config set, the default 'icu-dev' config is used.
+ * @param {string} configName - Name of the config to select.
  */
 export const selectConfig = (configName: string) => {
   const resolvedConfigName = (configName in configs) ? configName : 'icu-dev'
@@ -47,6 +48,8 @@ export const selectConfig = (configName: string) => {
 
 /**
  * Add a configuration to the config set.
+ * @param {string} configName - Name of the config to add.
+ * @param {Config} config - The configuration object.
  */
 export const addConfig = (configName: string, config: Config) => {
   if (configName in configs) {
