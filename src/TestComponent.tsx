@@ -33,7 +33,7 @@ const TestComponent = () => {
       <div>{totalVotes && totalVotes == 60820 ? 'icu-production data received' : ''}</div>
       <div>
         <div className="label">turnout</div>
-        <div className="data" data-testid="turnout">{totalVoters ? totalVoters.percentage.toFixed(2) : '...'}</div>
+        <div className="data" data-testid="turnout">{totalVoters ? totalVoters.percentage.toFixed(2) : '...'}%</div>
       </div>
       <div>
         <div className="label">votes cast</div>
