@@ -1,11 +1,11 @@
 import { arithmosporaReducer } from './slice'
-import { configureStore, Action, ConfigureStoreOptions, EnhancedStore } from '@reduxjs/toolkit'
+import { configureStore, Action, ConfigureStoreOptions, Store } from '@reduxjs/toolkit'
 
 /**
  * We keep a reference to the store here to allow us to access it
  * independently, i.e. in our socket event dispatcher.
  */
-let store: EnhancedStore
+let store: Store<unknown, Action, any>
 
 /**
  * Wrapper for configureStore which adds in our reducer and allows us to keep
@@ -68,3 +68,10 @@ const configureArithmosporaStore = (args: ConfigureStoreOptions) => {
 
 export { store }
 export default configureArithmosporaStore
+
+// Get the type of our store variable
+export type AppStore = typeof store
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<AppStore['getState']>
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type AppDispatch = AppStore['dispatch']
