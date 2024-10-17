@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector, useStore } from 'react-redux'
+import type { AppDispatch, AppStore, RootState } from './store'
 
-import connectSources from './sources'
+import { connectSources, selectConfig } from './sources'
 import {
   connectionStatusSelector,
   makeProportionStatSelector,
@@ -12,6 +13,21 @@ import {
 } from './selectors'
 import { arithmosporaActions } from './slice'
 import { Stat } from './interfaces'
+
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
+export const useAppSelector = useSelector.withTypes<RootState>()
+export const useAppStore = useStore.withTypes<AppStore>()
+
+/**
+ * Selects the named arithmospora config to use. If no matching name is
+ * present in the config set, the default 'icu-dev' config is used.
+ * @param {string} configName - Name of the config to select.
+ */
+export const useArithmosporaConfig = (configName: string) => {
+  useEffect(() => {
+    selectConfig(configName)
+  })
+}
 
 /**
  * Make a set of stats source available. Use this hook in all components that
@@ -75,7 +91,7 @@ export const useStat = (
     () => makeStatSelector(statSelector),
     [source, group, stat, statSelector]
   )
-  return useSelector((state) =>
+  return useAppSelector((state) =>
     statSelectorMemoized(state, source, group, stat)
   )
 }
@@ -113,7 +129,7 @@ export const useProportionStat = (
     [source, stat, statSelector]
   )
 
-  return useSelector((state) =>
+  return useAppSelector((state) =>
     proportionStatSelectorMemoized(state, source, stat)
   )
 }
@@ -162,7 +178,7 @@ export const useProportionStat = (
     [source, interval, stat, statSelector]
   )
 
-  return useSelector((state) =>
+  return useAppSelector((state) =>
     rollingStatSelectorMemoized(state, source, interval, stat)
   )
 }
@@ -200,7 +216,7 @@ export const useProportionStat = (
     [source, stat, dataPoint, statSelector]
   )
 
-  return useSelector((state) =>
+  return useAppSelector((state) =>
     timedStatSelectorMemoized(state, source, stat, dataPoint)
   )
 }
@@ -231,8 +247,8 @@ export const useProportionStat = (
  *     generated it, and the isNew flag.
  */
 export const useMilestone = (holdFor = 8000) => {
-  const lastMilestone = useSelector((state) => milestoneSelector(state))
-  const dispatch = useDispatch()
+  const lastMilestone = useAppSelector((state) => milestoneSelector(state))
+  const dispatch = useAppDispatch()
   let milestoneCompleteTimeoutRef = useRef<number | null>(null)
 
   // Ensure milestone gets marked as completed after a period of time.
@@ -260,7 +276,7 @@ export const useMilestone = (holdFor = 8000) => {
 }
 
 export const useConnectionStatus = (source: string) => {
-  return useSelector((state) => connectionStatusSelector(state, source))
+  return useAppSelector((state) => connectionStatusSelector(state, source))
 }
 
 export default useSources
