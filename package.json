@@ -1,6 +1,6 @@
 {
   "name": "arithmospora-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React hooks and utilities for connecting Arithmospora to a Redux state slice",
   "author": {
     "name": "Imperial College Union",
