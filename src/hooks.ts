@@ -112,7 +112,7 @@ export const useStat = (
  * //   percentage: 10.0,
  * //   dataPoints: { ... }
  * // }
- * const totalVoters = useProportionStat(props.source, 'proportion', 'total')
+ * const totalVoters = useProportionStat(props.source, 'total')
  * @param {string} source - The name of the stats source to retrieve from
  * @param {string} stat - The name of the stat to retrieve.
  * @param {statSelector} [statSelector = (stateStat) => stateStat] - Optional
